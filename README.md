@@ -1,4 +1,3 @@
 Projekt JPRO
 
-Pierwszy commit:
--zmiana zawartosci pliku README.md
+Tutaj w przysz³oœci bêdzie opis projektu
