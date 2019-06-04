@@ -5,6 +5,7 @@ void begin(int rows, int columns);
 char *create(int rows, int columns);
 double randomValue(double min, double max);
 void display(int rows, int columns, char *simulation);
+int countNeighbors(int rows, int columns, int x, int y, char *simulation);
 
 int main()
 {
@@ -35,6 +36,20 @@ void display(int rows, int columns, char *simulation){
 		}
 		printf("\n");
 	}
+}
+
+int countNeighbors(int rows, int columns, int x, int y, char *simulation){
+	int count = 0;
+	int pivot = y*columns + x;
+
+	int i,j;
+	for(i=-1;i<=1;i++){
+		for(j=-1;j<=1;j++){
+			char c = *(simulation + pivot + (-1)*(columns-)1);
+			if(c == '#') count++;
+		}
+	}
+	return count;
 }
 
 void begin(int rows, int columns){
