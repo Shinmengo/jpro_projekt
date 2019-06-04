@@ -2,31 +2,27 @@
 #include <stdlib.h>
 
 void begin(int rows, int columns);
+char *create(int rows, int columns);
+double randomValue(double min, double max);
 
 int main()
 {
-    int x,y,ilosc,xStart,yStart,i,n,m;
-    printf("Prosze podac rozmiar planszy\n");
-    scanf("%d %d", &x, &y);
-    char plansza[x][y];
+	int rows, columns;
+	printf("Podaj ilosc wierszy i kolumn\n");
+	scanf("%d %d", &rows, &columns);
+	if(rows <= 0){
+		printf("Liczba wierszy musi byc wieksza od 0!\m");
+		return -1;
+	}
+	rows+=2;
 
-    for(n = 0; n < y ; n++){
-        for(m = 0; m < x; m++){
-            plansza[n][m] = '#';
-            printf("%c", plansza[n][m]);
-        }
-        printf("\n");
-    }
+	if(columns <= 0){
+	printf("Liczba kolumn musi byc wieksza od 0!\n");
+	return -1;
+	}
+	columns+=2;
 
-    printf("Ile komorek poczatkowy chcesz podac?\n");
-    scanf("%d", &ilosc);
-        for(i = 0; i < ilosc; i++){
-            printf("Prosze wybrac pola startowe komorki %d (x,y)\n", i+1);
-            scanf("%d %d", &xStart, &yStart);
-            plansza[xStart-1][yStart-1] = '*';
-        }
-
-    board(x, y, plansza);
+	begin(rows, columns);
 }
 
 void begin(int rows, int columns){
@@ -43,6 +39,10 @@ void begin(int rows, int columns){
 		Sleep(1500); //windows
 		//usleep(15000000); //linux
 	}
+}
+
+double randomValue(double min, double max){
+	return ((double)rand()/RAND_MAX)*(max-min)+min);
 }
 
 char *create(int rows, int columns){
