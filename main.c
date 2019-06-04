@@ -1,15 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void board(int x, int y, char plansza[x][y]){
-    int i,j;
-    for(i = 0; i < y; i++){
-        for(j = 0; j < x; j++){
-            printf("%c", plansza[i][j]);
-        }
-        printf("\n");
-    }
-}
+void begin(int rows, int columns);
 
 int main()
 {
@@ -35,4 +27,38 @@ int main()
         }
 
     board(x, y, plansza);
+}
+
+void begin(int rows, int columns){
+	char *simulation = create(rows, columns);
+	if(simulation == NULL) return;
+	display(rows, columns, simulation);
+	
+	while(1){
+		char *newSim = step(rows, columns, simulation);
+		if(newSim == NULL) return;
+		free(simulation);
+		simulation = newSim;
+		display(rows, columns, simulation);
+		Sleep(1500); //windows
+		//usleep(15000000); //linux
+	}
+}
+
+char *create(int rows, int columns){
+	char *simulation = (char*)calloc(rows*columns, sizeof(char));
+	if(simulation == NULL) return;
+	int x,y;
+	for(y=1; y<rows-1;y++){
+		for(x=1;x<columns-1;x++){
+			if(randomValue(0.1, 1.1) <= 0.35){
+				*(simulation + y*columns + x) = '#';
+			}
+			else{
+				*(simulation + y*columns + x) = '.';
+			}
+		}
+	}
+
+	return simulation;
 }
