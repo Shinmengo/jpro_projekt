@@ -27,7 +27,7 @@ int main(){
 
     FILE *plik;
     plik = fopen("config.txt", "r");
-    if(plik == NULL) return NULL;
+    if(plik == NULL) return -1;
 
     fgets(row, 30, plik);
     sscanf(row,"%s %d", tmp1, &rows);
@@ -63,7 +63,6 @@ int main(){
     */
 
     begin(rows, columns);
-    return 1;
 }
 
 void display(int rows, int columns, char *simulation){
