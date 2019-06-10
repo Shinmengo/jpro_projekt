@@ -63,6 +63,7 @@ int main(){
     */
 
     begin(rows, columns);
+    return 1;
 }
 
 void display(int rows, int columns, char *simulation){
