@@ -1,11 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+    Zasady:
+    Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+    Any live cell with two or three live neighbours lives on to the next generation.
+    Any live cell with more than three live neighbours dies, as if by overpopulation.
+    Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+*/
+
 void begin(int rows, int columns);
 char *create(int rows, int columns);
 double randomValue(double min, double max);
 void display(int rows, int columns, char *simulation);
 void firstDisplay(int rows, int columns, char *simulation);
+void lastDisplay(int rows, int columns, char *simulation);
 int countNeighbors(int rows, int columns, int x, int y, char *simulation);
 char *step(int rows, int columns, char *previousSimulation);
 
@@ -35,6 +44,22 @@ int main(){
         return -1;
     }
     columns+=2;
+    /*
+    bez +2 nie da się w prosty sposób liczyć sąsiadów
+    dzieki temu zabiegowi opakowujemy wyswietlajacą się plansze w niewidzialne pudełko
+    które na krańcach będzie przypisywac wartości skrajne drugiej strony
+    np.
+
+    . . . . . .      h e f g h e
+    . 1 2 3 4 .      4 1 2 3 4 1
+    . a b c d .      d a b c d a
+    . 5 6 7 8 . -->  8 5 6 7 8 5
+    . e f g h .      h e f g h e
+    . . . . . .      4 1 2 3 4 1
+
+    dzięki takiemu zabiegowi nigdy nie wyjdziemy za przydzieloną pamięć i będzie prościej
+    zliczać sśsiadów w dalszej czśćci programu
+    */
 
     begin(rows, columns);
 }
@@ -60,12 +85,38 @@ void firstDisplay(int rows, int columns, char *simulation){
     }
 }
 
+void lastDisplay(int rows, int columns, char *simulation){
+    FILE *plik;
+    plik = fopen("out.txt", "w");
+    int x,y;
+    int alive = 0;
+    for(y=1; y<rows-1; y++){
+        for(x=1; x<columns-1; x++){
+            fprintf(plik, "%c", *(simulation + y*columns + x));
+
+            if(*(simulation + y*columns + x) == '#') alive++;
+        }
+        fprintf(plik, "\n");
+    }
+    fprintf(plik, "\nW ostatniej generacji zachowało się %d żywych komórek", alive);
+}
+
 int countNeighbors(int rows, int columns, int x, int y, char *simulation){
     int count = 0;
     int pivot = y*columns + x;
 
     int i,j;
-
+    /*
+    pamiec lokowana jest w jednej linii, wiec zapis
+        . . . . . .
+        . 1 2 3 4 .
+        . 1 2 3 4 .
+        . 1 2 3 4 .
+        . . . . . .
+    powinnien wygladac tak:
+        . . . . . . . 1 2 3 4 . . 1 2 3 4 . . 1 2 3 4 . . 1 2 3 4 . . . . . . .
+    dzięki temu zabiegowi jestem w stanie w prosty sposób zliczyć sąsiadów komórki która przyjmuje akutalnie nazwe pivot
+    */
     for(i=-1; i<=1; i++){
         for(j=-1; j<=1; j++){
             char c = *(simulation + pivot + (i*columns)+j);
@@ -87,6 +138,12 @@ char *step(int rows, int columns, char *previousSimulation){
             int live = countNeighbors(rows, columns, x, y, previousSimulation);
             char cell = *(previousSimulation + y*columns + x);
             if(cell == '#') live--;
+
+            /*w funkcji countNeighbors może się zdażyć że wszystkie 9 sprzwdzanych komórek mogą być żywe
+            ale jako, że jedna z tych komórek jest akurat naszą wybraną więc nie chcemy aby była ona liczona jako komórka sąsiadująca
+            dlatego gdy komórka dla której sprawdzamy sąsiadów nie może być uwzględniania podczas liczenia żywych sąsiadów
+            */
+
             *(steppedSimulation + y*columns + x) = cell;
             if(live < 2){
                 *(steppedSimulation + y*columns + x) = '.';
@@ -109,16 +166,23 @@ void begin(int rows, int columns){
     char *simulation = create(rows, columns);
     if(simulation == NULL) return;
     firstDisplay(rows, columns, simulation);
-    getch();
+    int n = 0;
+
 
     while(1){
         char *newSim = step(rows, columns, simulation);
         if(newSim == NULL) return;
-
         free(simulation);
         simulation = newSim;
-        display(rows, columns, simulation);
-        getch();
+        scanf("%c", &n);
+        if(n == 'q' || n == 'Q'){
+            lastDisplay(rows, columns, simulation);
+            break;
+        }
+        else{
+            display(rows, columns, simulation);
+
+        }
     }
 }
 
