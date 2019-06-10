@@ -58,7 +58,7 @@ int main(){
     . . . . . .      4 1 2 3 4 1
 
     dzięki takiemu zabiegowi nigdy nie wyjdziemy za przydzieloną pamięć i będzie prościej
-    zliczać sśsiadów w dalszej czśćci programu
+    zliczać sąsiadów w dalszej czśćci programu
     */
 
     begin(rows, columns);
@@ -139,9 +139,10 @@ char *step(int rows, int columns, char *previousSimulation){
             char cell = *(previousSimulation + y*columns + x);
             if(cell == '#') live--;
 
-            /*w funkcji countNeighbors może się zdażyć że wszystkie 9 sprzwdzanych komórek mogą być żywe
+            /*w 
+            funkcji countNeighbors może się zdażyć że wszystkie 9 sprzwdzanych komórek mogą być żywe
             ale jako, że jedna z tych komórek jest akurat naszą wybraną więc nie chcemy aby była ona liczona jako komórka sąsiadująca
-            dlatego gdy komórka dla której sprawdzamy sąsiadów nie może być uwzględniania podczas liczenia żywych sąsiadów
+            dlatego komórka, dla której sprawdzamy sąsiadów, nie może być uwzględniania podczas liczenia żywych sąsiadów
             */
 
             *(steppedSimulation + y*columns + x) = cell;
