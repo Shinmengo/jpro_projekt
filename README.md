@@ -5,10 +5,10 @@
 Program przedstawia grę w życie autorstwa Johna Conwaya.
 Został on zbudowany w oparciu o podstawowe zasady gry:
 
-1.Jakakolwiek żywa komórka, która ma mniej niż 2 żywych sąsiadów umiera spowodu zbyt małego zaludnienia.            
-2.Jakakolwiek żywa komórka, która ma dokładnie 2 lub 3 żywych sąsiadów przeżywa do kolejnej generacji.           
-3.Jakakolwiek żywa komórka, która ma więcej niż 3 żywych sąsiadów umiera spowodu przeludnienia.                
-4.Jakakolwiek martwa komórka, która ma dokładnie 3 żywych sąsiadów ożywa spowodu reprodukcji.           
+1. Jakakolwiek żywa komórka, która ma mniej niż 2 żywych sąsiadów umiera spowodu zbyt małego zaludnienia.            
+2. Jakakolwiek żywa komórka, która ma dokładnie 2 lub 3 żywych sąsiadów przeżywa do kolejnej generacji.           
+3. Jakakolwiek żywa komórka, która ma więcej niż 3 żywych sąsiadów umiera spowodu przeludnienia.                
+4. Jakakolwiek martwa komórka, która ma dokładnie 3 żywych sąsiadów ożywa spowodu reprodukcji.           
 
 -------------------------------------
 ## Kompilacja
