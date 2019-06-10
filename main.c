@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 /*
     Zasady:
@@ -128,7 +129,7 @@ int countNeighbors(int rows, int columns, int x, int y, char *simulation){
 }
 
 char *step(int rows, int columns, char *previousSimulation){
-    char *steppedSimulation = calloc(rows*columns, sizeof(int));
+    char *steppedSimulation = (char*)calloc(rows*columns, sizeof(int));
     if(steppedSimulation == NULL) return NULL;
 
     int x,y;
