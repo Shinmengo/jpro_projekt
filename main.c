@@ -34,6 +34,8 @@ int main(){
     fgets(row, 30, plik);
     sscanf(row,"%s %d", tmp2, &columns);
 
+    fclose(plik);
+    
     if(rows <= 0){
         printf("Liczba wierszy nie moze byc mniejsza niz 0!\n");
         return -1;
@@ -100,6 +102,7 @@ void lastDisplay(int rows, int columns, char *simulation){
         fprintf(plik, "\n");
     }
     fprintf(plik, "\nW ostatniej generacji zachowało się %d żywych komórek", alive);
+    fclose(plik);
 }
 
 int countNeighbors(int rows, int columns, int x, int y, char *simulation){
